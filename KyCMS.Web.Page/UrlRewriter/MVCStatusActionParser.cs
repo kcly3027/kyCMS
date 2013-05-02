@@ -1,17 +1,24 @@
-using System;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Text;
 using System.Xml;
 using Intelligencia.UrlRewriter;
 using Intelligencia.UrlRewriter.Configuration;
 
-namespace KyCMS.Web.MVC
+namespace KyCMS.Web.MVC.UrlRewriter
 {
-    public class DynamicMappingConditionParser : IRewriteConditionParser
+    public class MVCStatusActionParser : IRewriteActionParser
     {
+        #region Fields
+
+        private HttpStatusCode _statusCode;
+
+        #endregion
 
         #region .ctor
 
-        public DynamicMappingConditionParser()
+        public MVCStatusActionParser()
         {
         }
 
@@ -44,16 +51,17 @@ namespace KyCMS.Web.MVC
 
         #region Methods
 
-        public IRewriteCondition Parse(XmlNode node)
+        public IRewriteAction Parse(XmlNode node, RewriterConfiguration config)
         {
-            XmlNode dynamicmapping = node.Attributes.GetNamedItem("dynamicmapping");
-            if (dynamicmapping == null)
+            XmlNode statusCodeNode = node.Attributes.GetNamedItem("status");
+            if (statusCodeNode == null)
             {
                 return null;
             }
-            return new DynamicMappingCondition(dynamicmapping.Value);
+            return new MVCStatusAction((HttpStatusCode)Convert.ToInt32(statusCodeNode.Value));
         }
 
         #endregion
+
     }
 }

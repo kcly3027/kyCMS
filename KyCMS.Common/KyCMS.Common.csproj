@@ -31,11 +31,75 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationInitialization.cs" />
+    <Compile Include="Caching\CacheExtensions.cs" />
+    <Compile Include="Caching\CacheProvider.cs" />
+    <Compile Include="Caching\DefaultCache.cs" />
+    <Compile Include="Caching\ICache.cs" />
+    <Compile Include="Caching\RegionCache.cs" />
+    <Compile Include="CallContext.cs" />
+    <Compile Include="Collections\CachableDictionary.cs" />
+    <Compile Include="Collections\ComparedResult.cs" />
+    <Compile Include="Collections\DictionaryExtensions.cs" />
+    <Compile Include="Collections\EnumerableExtensions.cs" />
+    <Compile Include="Collections\ReadonlyNameValueCollection.cs" />
+    <Compile Include="ComponentModel\MetadataForAttribute.cs" />
+    <Compile Include="Configuration\FileConfigurationSection.cs" />
+    <Compile Include="CultureInfoHelper.cs" />
+    <Compile Include="Diagnostics\LoopWatch.cs" />
+    <Compile Include="Drawing\ColorExtensions.cs" />
+    <Compile Include="Drawing\Corner.cs" />
+    <Compile Include="Drawing\Filters\BasicFilter.cs" />
+    <Compile Include="Drawing\Filters\BlackAndWhite.cs" />
+    <Compile Include="Drawing\Filters\BoxFilter.cs" />
+    <Compile Include="Drawing\Filters\CutCornersFilter.cs" />
+    <Compile Include="Drawing\Filters\DropShadow.cs" />
+    <Compile Include="Drawing\Filters\FloorReflectionFilter.cs" />
+    <Compile Include="Drawing\Filters\IFilter.cs" />
+    <Compile Include="Drawing\Filters\ImageWatermarkFilter.cs" />
+    <Compile Include="Drawing\Filters\Pipeline.cs" />
+    <Compile Include="Drawing\Filters\PolaroidFrameFilter.cs" />
+    <Compile Include="Drawing\Filters\ResizeFilter.cs" />
+    <Compile Include="Drawing\Filters\RotateFilter.cs" />
+    <Compile Include="Drawing\Filters\RoundedCornersFilter.cs" />
+    <Compile Include="Drawing\Filters\SkewFilter.cs" />
+    <Compile Include="Drawing\Filters\TextWatermarkFilter.cs" />
+    <Compile Include="Drawing\Filters\WaterMarkFilter.cs" />
+    <Compile Include="Drawing\GraphicsExtenions.cs" />
+    <Compile Include="Drawing\ImageTools.cs" />
+    <Compile Include="Drawing\WebPageCapture.cs" />
+    <Compile Include="Drawing\WebPageCapture_DefaultProvider.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="FileExtensions.cs" />
+    <Compile Include="Globalization\CurrencyInfo.cs" />
+    <Compile Include="Globalization\DirectoryCreateException.cs" />
+    <Compile Include="Globalization\Element.cs" />
+    <Compile Include="Globalization\ElementCacheKey.cs" />
+    <Compile Include="Globalization\ElementRepository.cs" />
+    <Compile Include="Globalization\IElementRepository.cs" />
+    <Compile Include="Globalization\LocalizeExtension.cs" />
+    <Compile Include="Globalization\LocalizeHelper.cs" />
+    <Compile Include="Globalization\Repository\CacheElementRepository.cs" />
+    <Compile Include="Globalization\Repository\ResXResource.cs" />
+    <Compile Include="Globalization\Repository\XmlElementRepository.cs" />
+    <Compile Include="IPagedList.cs" />
+    <Compile Include="KyCMSException.cs" />
+    <Compile Include="Null.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegexPatterns.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="SR.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="TypeActivator.cs" />
+    <Compile Include="UniqueIdGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

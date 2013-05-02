@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using Intelligencia.UrlRewriter;
 
-namespace KyCMS.Web.MVC
+namespace KyCMS.Web.MVC.UrlRewriter
 {
     public class MVCStatusAction : IRewriteAction
     {

@@ -2,17 +2,19 @@ using System;
 using System.IO;
 using Intelligencia.UrlRewriter;
 
-namespace KyCMS.Web.MVC
+namespace KyCMS.Web.MVC.UrlRewriter
 {
     public class DynamicMappingCondition : IRewriteCondition
     {
-        public DynamicMappingCondition(string location)
+        protected bool IsDynamicMapping = false;
+
+        public DynamicMappingCondition(string isdynamicmapping)
         {
-            if (location == null)
+            if (isdynamicmapping == null)
             {
-                throw new ArgumentNullException("location");
+                throw new ArgumentNullException("dynamicmapping");
             }
-            _location = location;
+            IsDynamicMapping = isdynamicmapping.ToLower() == "true";
         }
 
         public bool IsMatch(RewriteContext context)

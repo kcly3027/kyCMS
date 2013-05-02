@@ -35,11 +35,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DynamicMappingCondition.cs" />
-    <Compile Include="MVCStatusAction.cs" />
+    <Compile Include="UrlRewriter\DynamicMappingCondition.cs" />
+    <Compile Include="UrlRewriter\MVCStatusAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MVCStatusActionParser.cs" />
-    <Compile Include="DynamicMappingConditionParser.cs" />
+    <Compile Include="UrlRewriter\MVCStatusActionParser.cs" />
+    <Compile Include="UrlRewriter\DynamicMappingConditionParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KyCMS.Web\Intelligencia.UrlRewriter\Intelligencia.UrlRewriter.csproj">
