@@ -96,7 +96,7 @@ namespace KyCMS.Common.Extensions
             {
                 return null;
             }
-        } 
+        }
         #endregion
     }
 }

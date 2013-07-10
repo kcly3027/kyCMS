@@ -64,6 +64,7 @@
     <Compile Include="test.aspx.designer.cs">
       <DependentUpon>test.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TestController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Web.Debug.config">

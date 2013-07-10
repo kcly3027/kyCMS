@@ -3,6 +3,7 @@ using System.Globalization;
 
 namespace KyCMS.Common.Globalization
 {
+    using LinqBridge.Linq;
     /// <summary>
     /// 
     /// </summary>

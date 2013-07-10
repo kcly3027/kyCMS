@@ -16,7 +16,6 @@ namespace KyCMS.Common
         public KyCMSException()
             : base()
         {
-
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="KoobooException" /> class.

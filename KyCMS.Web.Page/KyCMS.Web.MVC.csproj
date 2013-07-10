@@ -32,9 +32,32 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mvc\ActionResult.cs" />
+    <Compile Include="Mvc\ControllerActionInvoker.cs" />
+    <Compile Include="Mvc\ControllerBase.cs" />
+    <Compile Include="Mvc\ControllerBuilder.cs" />
+    <Compile Include="Mvc\ControllerContext.cs" />
+    <Compile Include="Mvc\DefaultControllerFactory.cs" />
+    <Compile Include="Mvc\DefaultModelBinder.cs" />
+    <Compile Include="Mvc\IActionInvoker.cs" />
+    <Compile Include="Mvc\IController.cs" />
+    <Compile Include="Mvc\IControllerFactory.cs" />
+    <Compile Include="Mvc\IModelBinder.cs" />
+    <Compile Include="Mvc\IRouteHandler.cs" />
+    <Compile Include="Mvc\MvcHandler.cs" />
+    <Compile Include="Mvc\MvcRouteHandler.cs" />
+    <Compile Include="Mvc\RawContentResult.cs" />
+    <Compile Include="Mvc\RequestContext.cs" />
+    <Compile Include="Mvc\RequestMethod.cs" />
+    <Compile Include="Mvc\Route.cs" />
+    <Compile Include="Mvc\RouteBase.cs" />
+    <Compile Include="Mvc\RouteData.cs" />
+    <Compile Include="Mvc\RouteDictionary.cs" />
+    <Compile Include="Mvc\RouteTable.cs" />
     <Compile Include="UrlRewriter\DynamicMappingCondition.cs" />
     <Compile Include="UrlRewriter\MVCStatusAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -42,11 +65,16 @@
     <Compile Include="UrlRewriter\DynamicMappingConditionParser.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KyCMS.Common\KyCMS.Common.csproj">
+      <Project>{27853cb6-4aab-4df9-a866-70482102a19d}</Project>
+      <Name>KyCMS.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KyCMS.Web\Intelligencia.UrlRewriter\Intelligencia.UrlRewriter.csproj">
       <Project>{91d837b4-f6e2-4b5c-b351-8da99d764244}</Project>
       <Name>Intelligencia.UrlRewriter</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

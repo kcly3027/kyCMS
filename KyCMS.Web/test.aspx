@@ -8,10 +8,6 @@
     <title></title>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-    test
-    </div>
-    </form>
+    这是Test
 </body>
 </html>

@@ -73,7 +73,7 @@ namespace KyCMS.Common.Globalization.Repository
         #endregion
 
         #region Methods
-        
+
         private void CreateDir()
         {
             if (Directory.Exists(path) == false)
@@ -106,7 +106,7 @@ namespace KyCMS.Common.Globalization.Repository
                     string culture1;
                     string category1;
                     ResXResourceFileHelper.Parse(file, out culture1, out category1);
-                    if (StringExtensions.EqualsOrNullEmpty(category, category1, StringComparison.CurrentCultureIgnoreCase) && StringExtensions.EqualsOrNullEmpty(culture1,culture, StringComparison.CurrentCultureIgnoreCase))
+                    if (StringExtensions.EqualsOrNullEmpty(category, category1, StringComparison.CurrentCultureIgnoreCase) && StringExtensions.EqualsOrNullEmpty(culture1, culture, StringComparison.CurrentCultureIgnoreCase))
                     {
                         File.Delete(file);
                     }
@@ -198,7 +198,7 @@ namespace KyCMS.Common.Globalization.Repository
             locker.AcquireWriterLock(Timeout.Infinite);
             try
             {
-                IEnumerable<Element> elements = new List<Element>();
+                List<Element> elements = new List<Element>();
                 if (Directory.Exists(path))
                 {
                     string[] files = Directory.GetFiles(path);
@@ -215,16 +215,15 @@ namespace KyCMS.Common.Globalization.Repository
                             string category;
                             ResXResourceFileHelper.Parse(fileName, out culture, out category);
 
-                            IEnumerable<Element> newElements = doc.Root.Elements("data")
-                                .Select(x => new Element()
-                                {
-                                    Category = category,
-                                    Culture = culture,
-                                    Name = x.Attribute("name").Value,
-                                    Value = x.Element("value").Value
-                                });
-
-                            elements = elements.(newElements);
+                            foreach (XmlNode xn in doc.SelectNodes("root/data"))
+                            {
+                                    Element element = new Element();
+                                    element.Name = xn.Attributes["name"].Value;
+                                    element.Value = XMLConvertStr(xn.FirstChild.InnerXml);
+                                    element.Category = category;
+                                    element.Culture = culture;
+                                    elements.Add(element);
+                            }
                         }
                     }
                 }
@@ -250,22 +249,26 @@ namespace KyCMS.Common.Globalization.Repository
             {
                 string filePath = Path.Combine(this.path, ResXResourceFileHelper.GetFileName(category, culture));
 
-                XDocument document = GetResxDocument(filePath);
+                XmlDocument document = GetResxDocument(filePath);
 
                 if (document == null)
                 {
                     return null;
                 }
 
-                return document.Root.Elements("data")
-                            .Where(it => it.Attribute("name").Value.EqualsOrNullEmpty(name, StringComparison.OrdinalIgnoreCase))
-                            .Select(it => new Element()
-                            {
-                                Name = it.Attribute("name").Value,
-                                Value = it.Element("value").Value,
-                                Category = category,
-                                Culture = culture
-                            }).FirstOrDefault();
+                foreach (XmlNode xn in document.SelectNodes("root/data"))
+                {
+                    if (StringExtensions.EqualsOrNullEmpty(xn.Attributes["name"].Value, name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Element element = new Element();
+                        element.Name = xn.Attributes["name"].Value;
+                        element.Value = XMLConvertStr(xn.FirstChild.InnerXml);
+                        element.Category = category;
+                        element.Culture = culture;
+                        return element;
+                    }
+                }
+                return null;
             }
             finally
             {
@@ -285,21 +288,28 @@ namespace KyCMS.Common.Globalization.Repository
             {
                 CreateDir();
                 string filePath = Path.Combine(this.path, ResXResourceFileHelper.GetFileName(element.Category, element.Culture));
-                XDocument document = GetResxDocument(filePath);
+                XmlDocument document = GetResxDocument(filePath);
 
                 if (document == null)
                 {
                     document = CreateResXDocument();
                 }
-                var exists = document.Root.Elements("data")
-                   .FirstOrDefault(d => d.Attribute("name").Value == element.Name);
+                XmlNode exists = null;
+                foreach (XmlNode xn in document.SelectNodes("root/data"))
+                {
+                    if (StringExtensions.EqualsOrNullEmpty(xn.Attributes["name"].Value, element.Name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        exists = xn;
+                        break;
+                    }
+                }
                 if (exists == null)
                 {
-                    document.Root.Add(
-                    new XElement("data",
-                        new XAttribute("name", element.Name),
-                        new XAttribute(XNamespace.Xml + "space", "preserve"),
-                        new XElement("value", element.Value)));
+                    XmlElement xe = document.CreateElement("data");
+                    xe.SetAttribute("name", element.Name);
+                    xe.SetAttribute("xml:space", "preserve");
+                    xe.InnerXml = string.Format("<value>{0}</value>", StrConvertXML(element.Value));
+                    document.SelectSingleNode("root").AppendChild(xe);
                     document.Save(filePath);
                 }
             }
@@ -323,22 +333,28 @@ namespace KyCMS.Common.Globalization.Repository
                 CreateDir();
                 string filePath = Path.Combine(this.path, ResXResourceFileHelper.GetFileName(element.Category, element.Culture));
 
-                XDocument document = GetResxDocument(filePath);
+                XmlDocument document = GetResxDocument(filePath);
 
                 if (document == null)
                 {
                     return false;
                 }
 
-                var newElement = document.Root.Elements("data")
-                    .FirstOrDefault(d => d.Attribute("name").Value.EqualsOrNullEmpty(element.Name, StringComparison.OrdinalIgnoreCase));
+                XmlNode newElement = null;
+                foreach (XmlNode xn in document.SelectNodes("root/data"))
+                {
+                    if (StringExtensions.EqualsOrNullEmpty(xn.Attributes["name"].Value, element.Name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        newElement = xn;
+                        break;
+                    }
+                }
 
                 if (newElement == null)
                 {
                     return false;
                 }
-
-                newElement.Element("value").Value = element.Value;
+                newElement.SelectSingleNode("value").Value = element.Value;
                 document.Save(filePath);
 
                 return true;
@@ -369,16 +385,20 @@ namespace KyCMS.Common.Globalization.Repository
                 {
                     return false;
                 }
-
-                var newElement = document.Root.Elements("data")
-                    .FirstOrDefault(d => d.Attribute("name").Value.EqualsOrNullEmpty(element.Name, StringComparison.OrdinalIgnoreCase));
-
+                XmlNode newElement = null;
+                foreach (XmlNode xn in document.SelectNodes("root/data"))
+                {
+                    if (StringExtensions.EqualsOrNullEmpty(xn.Attributes["name"].Value, element.Name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        newElement = xn;
+                        break;
+                    }
+                }
                 if (newElement == null)
                 {
                     return false;
                 }
-
-                newElement.Remove();
+                document.RemoveChild(newElement);
                 document.Save(filePath);
 
                 return true;
@@ -468,6 +488,16 @@ namespace KyCMS.Common.Globalization.Repository
             doc.LoadXml(resheader);
 
             return doc;
+        }
+
+        private string XMLConvertStr(string xml)
+        {
+            return xml.Replace("&lt;", "<").Replace("&gt;", ">").Replace("&quot;", "\'").Replace("&apos;", "'").Replace("&amp;", "&");
+        }
+
+        private string StrConvertXML(string str)
+        {
+            return str.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\'", "&quot;").Replace("'", "&apos;");
         }
 
         #endregion
